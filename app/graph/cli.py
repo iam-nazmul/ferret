@@ -1,10 +1,4 @@
-"""Ask a question from the terminal.
-
-    python -m app.graph.cli "your question" --user-groups eng,all
-
-Use the reporting user's groups when reproducing a bug — running as an admin is the
-most common way to conclude "works for me" on an ACL-scoped corpus gap.
-"""
+"""Ask a question from the terminal."""
 
 import argparse
 import asyncio

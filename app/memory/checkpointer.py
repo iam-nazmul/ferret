@@ -1,8 +1,4 @@
-"""Short-term memory: LangGraph checkpointer, keyed by thread_id.
-
-Holds the full message history plus graph state. Everything stored must be
-JSON-serializable.
-"""
+"""Short-term memory: LangGraph checkpointer, keyed by thread_id."""
 
 from contextlib import asynccontextmanager
 
@@ -32,8 +28,7 @@ def summarize_if_needed(
 ) -> list[AnyMessage] | None:
     """Collapse the older span of a long thread into one system note.
 
-    Returns None when no summarization is needed. Without this, context cost grows
-    without bound on long threads.
+    Returns None when no summarization is needed.
     """
     limit = threshold or settings.thread_summarize_after
     if len(messages) <= limit:

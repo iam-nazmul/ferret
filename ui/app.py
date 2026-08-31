@@ -1,8 +1,4 @@
-"""Ferret UI entry point.
-
-Streamlit reruns the whole script on every interaction, so anything expensive goes
-behind a cache decorator.
-"""
+"""Ferret UI entry point."""
 
 import os
 

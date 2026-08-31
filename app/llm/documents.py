@@ -1,8 +1,4 @@
-"""Chunk -> Anthropic document content block.
-
-Each chunk is its own document block so the API's citation locators map back to our
-chunks by index. Citations must be enabled on all blocks or none.
-"""
+"""Chunk -> Anthropic document content block."""
 
 import json
 from typing import Any

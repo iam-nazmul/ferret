@@ -1,9 +1,4 @@
-"""Hybrid retrieval: dense + sparse, fused with RRF, in one round trip.
-
-THE RULE: the ACL predicate lives in the innermost WHERE of both CTEs. Never fetch
-broadly and filter in Python — unauthorized rows leaving the database are one refactor
-away from being in a prompt. See .claude/skills/acl-audit.
-"""
+"""Hybrid retrieval: dense + sparse, fused with RRF, in one round trip."""
 
 import uuid
 from typing import Any
@@ -21,6 +16,8 @@ from app.retrieval.types import Chunk, RetrievalFilters
 
 log = get_logger(__name__)
 
+# ACL lives in the innermost WHERE of both CTEs. Filtering in Python instead lets
+# unauthorized rows leave the database, one refactor from a prompt.
 HYBRID_SQL = """
 WITH dense AS (
   SELECT c.id, row_number() OVER (ORDER BY c.embedding <=> :qvec) AS rank
@@ -65,6 +62,7 @@ class HybridRetriever:
         filters: RetrievalFilters | None = None,
         limit: int | None = None,
     ) -> list[Chunk]:
+        """See `Retriever.retrieve`."""
         if not query.strip():
             return []
 

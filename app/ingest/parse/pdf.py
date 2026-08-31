@@ -1,8 +1,4 @@
-"""PDF parsing.
-
-PyMuPDF gives page + bbox, which becomes the citation locator. A parser that returns
-text with no position information makes citations useless for that source.
-"""
+"""PDF parsing."""
 
 from app.config import settings
 from app.ingest.types import Parsed, ParsedBlock

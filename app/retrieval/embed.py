@@ -1,8 +1,4 @@
-"""Query embedding.
-
-Config is shared with ingestion via app.config — a mismatch degrades silently rather
-than erroring, and looks exactly like a retrieval quality problem.
-"""
+"""Query embedding."""
 
 from functools import lru_cache
 

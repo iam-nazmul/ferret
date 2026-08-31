@@ -1,9 +1,4 @@
-"""Long-term memory extraction.
-
-The exclusion list is a security property, not a style preference: the memory store is
-keyed by user with no ACL join, so document content landing there escapes the permission
-model. See app/memory/README.md.
-"""
+"""Long-term memory extraction."""
 
 EXTRACT_PROMPT = """Extract durable facts about the USER from this conversation turn.
 

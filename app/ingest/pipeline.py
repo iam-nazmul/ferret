@@ -1,8 +1,4 @@
-"""The per-document stage sequence.
-
-Idempotency key is (source_id, uri, content_hash). Same triple, no work — this is what
-makes every stage safe to re-run and every failure safe to retry.
-"""
+"""The per-document stage sequence."""
 
 import hashlib
 import uuid
@@ -52,12 +48,9 @@ async def ingest_source(session: AsyncSession, source_id: uuid.UUID) -> dict[str
 
 
 async def ingest_document(session: AsyncSession, source: Source, item: Discovered) -> str:
-    """Returns 'indexed' | 'skipped' | 'failed'.
-
-    Source values are read into plain locals up front: the failure path rolls back, which
-    expires every loaded ORM attribute, and touching one afterwards raises MissingGreenlet
-    inside the error handler — turning a handled failure into a crash.
-    """
+    """Returns 'indexed' | 'skipped' | 'failed'."""
+    # Read into locals: rollback expires ORM attributes, and touching one in the
+    # except handler raises MissingGreenlet.
     source_id = source.id
     source_kind = source.kind
     default_acl = list(source.acl_groups)

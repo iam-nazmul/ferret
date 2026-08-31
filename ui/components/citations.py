@@ -1,8 +1,4 @@
-"""Inline citation markers.
-
-An uncited answer looks identical to a cited one at a glance — which is precisely the
-confusion this product exists to prevent. Never render an answer without its markers.
-"""
+"""Inline citation markers."""
 
 import re
 

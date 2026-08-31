@@ -1,7 +1,4 @@
-"""Model IDs. Never write these strings at a call site (CLAUDE.md rule 3).
-
-Exact IDs, no date suffixes. See .claude/references/claude-api.md for pricing.
-"""
+"""Model IDs. Never write these strings at a call site (CLAUDE.md rule 3)."""
 
 # Answers, and the offline eval judge.
 ANSWER_MODEL = "claude-opus-5"

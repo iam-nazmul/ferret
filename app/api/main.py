@@ -23,9 +23,7 @@ log = get_logger(__name__)
 async def lifespan(app: FastAPI):
     configure_logging()
     async with AsyncExitStack() as stack:
-        # These degrade differently, so they fail independently: without the
-        # checkpointer the app forgets the conversation; without the store it forgets
-        # the user. Either way it still answers questions.
+        # Fail independently: one loses thread memory, the other long-term memory.
         checkpointer = store = None
         try:
             checkpointer = await stack.enter_async_context(get_checkpointer())
@@ -44,9 +42,10 @@ async def lifespan(app: FastAPI):
         from app.graph.build import build_graph
 
         class _SessionRetriever:
-            """Opens a session per retrieval call so the graph can be compiled once."""
+            """`Retriever` that opens a session per call, so the graph compiles once."""
 
             async def retrieve(self, query, user_groups, filters=None, limit=None):
+                """See `Retriever.retrieve`."""
                 async with session_factory() as session:
                     return await HybridRetriever(session).retrieve(
                         query, user_groups, filters, limit

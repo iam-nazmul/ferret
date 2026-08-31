@@ -10,9 +10,8 @@ from app.logging import get_logger
 
 log = get_logger(__name__)
 
-# LangGraph owns these tables (created by its own setup(), in the public schema) — we
-# only expire rows, never alter their shape. The timestamp lives inside the checkpoint
-# payload; there is no created_at column.
+# LangGraph owns these tables (public schema, its own setup()). No created_at column —
+# the timestamp is inside the checkpoint payload.
 _EXPIRED_THREADS_SQL = """
 SELECT thread_id FROM checkpoints
 GROUP BY thread_id
@@ -25,10 +24,7 @@ _CHECKPOINT_TABLES = ("checkpoint_writes", "checkpoint_blobs", "checkpoints")
 
 
 async def expire_threads(session: AsyncSession, days: int | None = None) -> int:
-    """Delete threads whose newest checkpoint is older than the retention window.
-
-    Not optional in prod: checkpoint tables grow monotonically otherwise.
-    """
+    """Delete threads whose newest checkpoint is older than the retention window."""
     cutoff = datetime.now(UTC) - timedelta(days=days or settings.thread_retention_days)
 
     thread_ids = (

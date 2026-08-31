@@ -57,6 +57,7 @@ class FakeReranker:
         self.fail = fail
 
     async def rerank(self, query: str, chunks: list[Chunk], top_k: int | None = None) -> list[Chunk]:
+        """See `Reranker.rerank`."""
         if self.fail:
             from app.metrics import reranker_fallbacks
 
@@ -68,11 +69,14 @@ class FakeReranker:
 
 
 class FakeRetriever:
+    """`Retriever` returning canned chunks and recording its calls."""
+
     def __init__(self, chunks: list[Chunk] | None = None):
         self.chunks = chunks or []
         self.calls: list[dict] = []
 
     async def retrieve(self, query, user_groups, filters=None, limit=None):
+        """See `Retriever.retrieve`."""
         self.calls.append({"query": query, "user_groups": user_groups, "filters": filters})
         return list(self.chunks)
 

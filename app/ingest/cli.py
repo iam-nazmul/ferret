@@ -1,9 +1,4 @@
-"""Ingestion CLI.
-
-    python -m app.ingest.cli run --source-id <uuid>
-    python -m app.ingest.cli reindex --all
-    python -m app.ingest.cli add --kind web_sitemap --uri https://... --acl-groups all
-"""
+"""Ingestion CLI."""
 
 import argparse
 import asyncio

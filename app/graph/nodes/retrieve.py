@@ -1,8 +1,4 @@
-"""Retrieval, one pass per sub-query, unioned.
-
-user_groups comes from state and is passed straight through to the retriever, which
-enforces it in SQL.
-"""
+"""Retrieval, one pass per sub-query, unioned."""
 
 import asyncio
 

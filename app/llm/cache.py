@@ -1,11 +1,4 @@
-"""Prompt cache layout (SPEC §9).
-
-Render order is tools -> system -> messages. Ferret's prefix:
-
-    [system: ANSWER_SYSTEM_PROMPT]   <- cache_control breakpoint, never interpolated
-    [messages: memory block]
-    [messages: documents + question] <- volatile, after the last breakpoint
-"""
+"""Prompt cache layout (SPEC §9)."""
 
 from anthropic.types.beta import BetaTextBlockParam
 

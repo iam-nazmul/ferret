@@ -1,9 +1,4 @@
-"""Query text sanitization for the sparse side.
-
-`websearch_to_tsquery` raises on some punctuation. Sanitizing here is correct; wrapping
-the whole search in try/except and returning empty is not — that turns a parse bug into
-"Ferret knows nothing".
-"""
+"""Query text sanitization for the sparse side."""
 
 import re
 

@@ -1,8 +1,4 @@
-"""Source kind -> (discoverer, fetcher).
-
-Adding a kind here also means a migration for the sources.kind check constraint.
-See .claude/skills/add-source-type.
-"""
+"""Source kind -> (discoverer, fetcher)."""
 
 from collections.abc import Awaitable, Callable
 

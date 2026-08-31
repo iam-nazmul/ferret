@@ -1,8 +1,4 @@
-"""Conditional HTTP fetch.
-
-Without conditional requests every run re-embeds the whole corpus and the embedding
-bill becomes the dominant cost.
-"""
+"""Conditional HTTP fetch."""
 
 import httpx
 

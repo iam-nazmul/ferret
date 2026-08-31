@@ -1,7 +1,4 @@
-"""Citation coverage check.
-
-Never blocks the answer — it flags. A hard block turns a degraded answer into an outage.
-"""
+"""Citation coverage check."""
 
 import re
 
@@ -15,10 +12,8 @@ log = get_logger(__name__)
 
 _SENTENCE = re.compile(r"(?<=[.!?])\s+")
 
-# Meta and hedging sentences make no checkable claim, so they need no citation.
-# Everything else is treated as a claim: this defaults toward flagging, which is the
-# safe direction — a false positive is a visible warning the reader can dismiss, while
-# a false negative ships an uncited claim silently.
+# Hedging and meta sentences need no citation; everything else counts as a claim.
+# Defaults toward flagging: a false positive is dismissible, a false negative is silent.
 _HEDGE = re.compile(
     r"^\s*(i |i'|we |we'|here|this |that |these |those |the following|note that|"
     r"in (short|summary)|based on|according to the (documents|sources)|let me|"
@@ -34,9 +29,7 @@ def split_sentences(text: str) -> list[str]:
 def is_factual(sentence: str) -> bool:
     """A sentence that asserts something checkable against the corpus.
 
-    Deliberately permissive — see the note on _HEDGE. Requiring a positive signal
-    (a number, a copula) missed claims like "Enterprise customers also get priority
-    support", which is exactly the kind of unsupported assertion this check exists for.
+    Deliberately permissive; see the note on `_HEDGE`.
     """
     if len(sentence) < 25:
         return False

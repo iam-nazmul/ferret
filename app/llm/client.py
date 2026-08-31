@@ -1,8 +1,4 @@
-"""The single path to the Anthropic API.
-
-Nothing outside this module imports `anthropic`. See .claude/references/claude-api.md
-for the request-shape rules these calls encode.
-"""
+"""The single path to the Anthropic API."""
 
 from collections.abc import AsyncIterator
 from dataclasses import dataclass
@@ -70,11 +66,7 @@ class LLMClient:
         model: str = ANSWER_MODEL,
         max_tokens: int = 64000,
     ) -> AsyncIterator[tuple[str, Any]]:
-        """Yields ("token", str) as text arrives, then ("done", LLMResponse).
-
-        Streaming is mandatory for user-facing calls: large max_tokens on a non-streaming
-        request hits HTTP timeouts.
-        """
+        """Yields ("token", str) as text arrives, then ("done", LLMResponse)."""
         async with self._client.beta.messages.stream(
             model=model,
             max_tokens=max_tokens,

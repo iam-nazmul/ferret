@@ -70,11 +70,8 @@ class Settings(BaseSettings):
 
     @property
     def pg_conninfo(self) -> str:
-        """Raw libpq conninfo for LangGraph's psycopg-based checkpointer and store.
-
-        These take a connection string, not a SQLAlchemy URL — a '+driver' suffix here
-        fails at connect time, not at import time.
-        """
+        """Raw libpq conninfo for LangGraph. Not a SQLAlchemy URL: a driver suffix
+        here fails at connect time, not import time."""
         url = self.database_url
         for driver in ("+asyncpg", "+psycopg", "+psycopg2"):
             url = url.replace(driver, "")
