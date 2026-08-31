@@ -1,0 +1,48 @@
+name: Eval gate
+
+# Runs only on PRs touching retrieval, prompts, or the graph. Each run costs money —
+# never wire this to push-on-any-branch.
+on:
+  pull_request:
+    paths:
+      - "app/retrieval/**"
+      - "app/llm/prompts/**"
+      - "app/graph/**"
+      - "eval/**"
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - run: uv sync --extra dev
+
+      - name: Run gate
+        id: gate
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+          DATABASE_URL: ${{ secrets.EVAL_DATABASE_URL }}
+        run: |
+          uv run python -m eval.run_eval --gate | tee gate.md
+          echo "exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Comment results on the PR
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync('gate.md', 'utf8');
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            });
+
+      - name: Fail on regression
+        if: steps.gate.outputs.exit != '0'
+        run: exit 1
