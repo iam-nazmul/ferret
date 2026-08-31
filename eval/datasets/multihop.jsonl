@@ -1,0 +1,3 @@
+// Questions requiring 2+ documents.
+{"inputs": {"question": "What's the liability cap in Vendor X's MSA, and how does it differ from our standard template?"}, "outputs": {"answer": "Vendor X caps at 2x annual fees; our standard template caps at 1x fees paid in the preceding twelve months.", "document_ids": ["seed-vendor-x-msa", "seed-msa-template"]}}
+{"inputs": {"question": "Do our data retention policy and the Enterprise SLA agree on deletion timelines?"}, "outputs": {"answer": "The retention policy specifies 90 days; the SLA does not address deletion timelines.", "document_ids": ["seed-retention-policy", "seed-sla"]}}

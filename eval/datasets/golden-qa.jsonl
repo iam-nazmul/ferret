@@ -1,0 +1,7 @@
+// Golden QA seed. SMEs replace document_ids with real ids after the first ingest.
+// Non-refusal examples MUST carry document_ids — eval/sync.py rejects them otherwise.
+{"inputs": {"question": "How many days is the refund window on the Enterprise plan?"}, "outputs": {"answer": "30 days from the invoice date.", "document_ids": ["seed-refund-policy"]}}
+{"inputs": {"question": "What is the liability cap in our standard MSA template?"}, "outputs": {"answer": "Fees paid in the twelve months preceding the claim.", "document_ids": ["seed-msa-template"]}}
+{"inputs": {"question": "Who must approve a production deployment?"}, "outputs": {"answer": "The on-call engineer plus one reviewer from the owning team.", "document_ids": ["seed-deploy-policy"]}}
+{"inputs": {"question": "How long do we retain customer data after account closure?"}, "outputs": {"answer": "90 days, after which it is permanently deleted.", "document_ids": ["seed-retention-policy"]}}
+{"inputs": {"question": "What is the SLA uptime commitment for Enterprise customers?"}, "outputs": {"answer": "99.9% monthly uptime.", "document_ids": ["seed-sla"]}}

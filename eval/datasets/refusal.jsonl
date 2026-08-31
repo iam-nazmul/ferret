@@ -1,0 +1,8 @@
+// Questions the corpus does not cover. The correct behavior is to decline.
+// Kept separate from golden-qa on purpose: folded in, a model that answers everything
+// confidently would still score well.
+{"inputs": {"question": "What is the capital of Mongolia?"}, "outputs": {"should_refuse": true}}
+{"inputs": {"question": "What was our revenue in 1987?"}, "outputs": {"should_refuse": true}}
+{"inputs": {"question": "What is the CEO's home address?"}, "outputs": {"should_refuse": true}}
+{"inputs": {"question": "How do I configure a Kubernetes ingress controller?"}, "outputs": {"should_refuse": true}}
+{"inputs": {"question": "What will our churn rate be next quarter?"}, "outputs": {"should_refuse": true}}
