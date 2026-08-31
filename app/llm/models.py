@@ -11,6 +11,9 @@ EXTRACT_MODEL = "claude-haiku-4-5"
 # Cost-reduction fallback. Last resort, and only after the eval gate (SPEC §16).
 CHEAP_ANSWER_MODEL = "claude-sonnet-5"
 
+# ENVIRONMENT=local: every call above is served by this Ollama model instead.
+LOCAL_MODEL = "gemma3:4b"
+
 # Effort levels (output_config.effort), by question shape.
 EFFORT_SIMPLE = "low"
 EFFORT_DEFAULT = "high"

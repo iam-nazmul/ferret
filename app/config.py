@@ -8,9 +8,14 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
+    # "development" | "production" talk to the Anthropic API; "local" runs the
+    # answer path on a locally hosted Ollama model instead (app/llm/README.md).
+    environment: str = "development"
+
     # LLM + embeddings
     anthropic_api_key: str = ""
     openai_api_key: str = ""
+    ollama_base_url: str = "http://localhost:11434"
 
     # Observability
     langsmith_api_key: str = ""
@@ -62,6 +67,10 @@ class Settings(BaseSettings):
     rate_limit_per_minute: int = 20
     rate_limit_concurrent: int = 5
     thread_retention_days: int = 90
+
+    @property
+    def is_local(self) -> bool:
+        return self.environment.strip().lower() == "local"
 
     @property
     def sync_database_url(self) -> str:

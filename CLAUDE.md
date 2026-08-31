@@ -106,6 +106,10 @@ docker compose -f deploy/compose.yml up -d postgres redis reranker
 alembic upgrade head
 ```
 
+Without an Anthropic key, set `ENVIRONMENT=local` and every LLM call goes to `gemma3:4b` on a
+local Ollama (`ollama pull gemma3:4b`). No citations and no prompt cache on that path, and never
+an eval target — the trade-offs are in `app/llm/README.md`.
+
 Run it:
 
 ```bash
