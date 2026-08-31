@@ -1,9 +1,66 @@
+# --- Python ---------------------------------------------------------------
 __pycache__/
 *.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtualenvs
 .venv/
-.env
+venv/
+env/
+
+# Packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Tooling caches
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/
-dist/
-*.egg-info/
+.dmypy.json
+.tox/
+.nox/
+
+# Coverage
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# --- Secrets and local config ---------------------------------------------
+# .env holds real API keys. .env.example is the committed template and is the
+# only variant that should ever be tracked.
+.env
+.env.*
+!.env.example
+
+# Streamlit writes real credentials here.
+.streamlit/secrets.toml
+
+# Claude Code machine-local settings; .claude/settings.json is the shared one.
+.claude/settings.local.json
+
+# --- Runtime artifacts ----------------------------------------------------
+# Celery beat state. Committing it makes the scheduler replay stale runs.
+celerybeat-schedule
+celerybeat-schedule.*
+celerybeat.pid
+
+*.log
+logs/
+
+# Local ingestion scratch — uploads and downloaded corpora are not source.
+data/
+uploads/
+
+# --- Editors and OS -------------------------------------------------------
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
