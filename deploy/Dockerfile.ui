@@ -1,0 +1,19 @@
+FROM python:3.12-slim
+
+ENV PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1
+WORKDIR /srv
+
+COPY pyproject.toml README.md ./
+COPY app/__init__.py ./app/__init__.py
+RUN pip install --no-cache-dir streamlit httpx
+
+COPY ui ./ui
+
+RUN useradd --create-home --uid 10001 ferret && chown -R ferret /srv
+USER ferret
+
+EXPOSE 8501
+HEALTHCHECK --interval=30s --timeout=5s \
+  CMD python -c "import httpx,sys; sys.exit(0 if httpx.get('http://localhost:8501/_stcore/health').status_code==200 else 1)"
+
+CMD ["streamlit", "run", "ui/app.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.headless=true"]

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ferret-api
+spec:
+  replicas: 3
+  selector: {matchLabels: {app: ferret-api}}
+  template:
+    metadata:
+      labels: {app: ferret-api}
+    spec:
+      containers:
+        - name: api
+          image: ferret/api:latest
+          ports: [{containerPort: 8000}]
+          envFrom:
+            - secretRef: {name: ferret-secrets}
+            - configMapRef: {name: ferret-config}
+          resources:
+            requests: {cpu: "500m", memory: "1Gi"}
+            limits: {cpu: "2", memory: "2Gi"}
+          # Liveness is process-only. Pointing it at /readyz turns a slow database
+          # into a cluster-wide restart loop.
+          livenessProbe:
+            httpGet: {path: /healthz, port: 8000}
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          readinessProbe:
+            httpGet: {path: /readyz, port: 8000}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ferret-api
+spec:
+  selector: {app: ferret-api}
+  ports: [{port: 80, targetPort: 8000}]
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ferret-api
+spec:
+  scaleTargetRef: {apiVersion: apps/v1, kind: Deployment, name: ferret-api}
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource: {name: cpu, target: {type: Utilization, averageUtilization: 70}}

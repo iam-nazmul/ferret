@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ferret-worker
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: ferret-worker}}
+  template:
+    metadata:
+      labels: {app: ferret-worker}
+    spec:
+      containers:
+        - name: worker
+          image: ferret/api:latest
+          command: ["celery", "-A", "app.ingest.worker", "worker", "-l", "info", "-Q", "celery"]
+          envFrom:
+            - secretRef: {name: ferret-secrets}
+            - configMapRef: {name: ferret-config}
+          resources:
+            requests: {cpu: "500m", memory: "2Gi"}
+            limits: {cpu: "2", memory: "4Gi"}
+---
+# OCR is ~50x slower than text extraction; its own queue keeps it from starving the rest.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ferret-worker-ocr
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: ferret-worker-ocr}}
+  template:
+    metadata:
+      labels: {app: ferret-worker-ocr}
+    spec:
+      containers:
+        - name: worker
+          image: ferret/api:latest
+          command: ["celery", "-A", "app.ingest.worker", "worker", "-l", "info", "-Q", "ocr"]
+          envFrom:
+            - secretRef: {name: ferret-secrets}
+            - configMapRef: {name: ferret-config}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ferret-beat
+spec:
+  # NEVER scale this. Two schedulers double-crawl every source — the most expensive
+  # one-character mistake available in this repo.
+  replicas: 1
+  strategy: {type: Recreate}
+  selector: {matchLabels: {app: ferret-beat}}
+  template:
+    metadata:
+      labels: {app: ferret-beat}
+    spec:
+      containers:
+        - name: beat
+          image: ferret/api:latest
+          command: ["celery", "-A", "app.ingest.worker", "beat", "-l", "info"]
+          envFrom:
+            - secretRef: {name: ferret-secrets}
+            - configMapRef: {name: ferret-config}
