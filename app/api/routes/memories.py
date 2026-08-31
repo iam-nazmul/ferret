@@ -1,7 +1,4 @@
-"""Long-term memory: view and delete.
-
-This is the user-facing control described in the README, and the GDPR erasure path.
-"""
+"""Long-term memory: view and delete."""
 
 from fastapi import APIRouter, Depends, status
 

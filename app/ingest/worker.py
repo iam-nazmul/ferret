@@ -1,7 +1,4 @@
-"""Celery app and beat schedule.
-
-Beat must run at exactly ONE replica — duplicate schedulers double-crawl every source.
-"""
+"""Celery app and beat schedule."""
 
 import asyncio
 import uuid

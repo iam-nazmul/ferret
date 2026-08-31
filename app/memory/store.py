@@ -1,9 +1,4 @@
-"""Long-term memory: LangGraph store with semantic search.
-
-There is NO ACL layer on the store — the namespace is the only isolation. Always
-("memories", user_id), and never document content: that would be an unauthorized second
-copy of the corpus outside the permission model.
-"""
+"""Long-term memory: LangGraph store with semantic search."""
 
 import uuid
 from contextlib import asynccontextmanager
@@ -18,6 +13,7 @@ from app.logging import get_logger
 log = get_logger(__name__)
 
 
+# The store has no ACL layer; this namespace is the only isolation.
 def namespace(user_id: str) -> tuple[str, str]:
     return ("memories", user_id)
 

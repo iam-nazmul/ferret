@@ -1,9 +1,4 @@
-"""Cross-encoder reranker client.
-
-Falls back to RRF order when the service is unavailable. A degraded ranking is a usable
-answer; an exception is an outage. The fallback counter exists so this doesn't silently
-become the normal path.
-"""
+"""Cross-encoder reranker client."""
 
 import httpx
 

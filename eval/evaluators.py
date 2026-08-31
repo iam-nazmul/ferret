@@ -1,11 +1,4 @@
-"""Evaluators for the LangSmith gate.
-
-LangSmith injects arguments BY PARAMETER NAME (inputs, outputs, reference_outputs) —
-renaming a parameter produces a confusing runtime error, not a type error.
-
-Three of the five are deterministic on purpose: free, fast, reproducible, and nobody
-argues with their verdicts.
-"""
+"""Evaluators for the LangSmith gate."""
 
 import re
 from typing import Annotated, Any, TypedDict
@@ -101,10 +94,7 @@ def retrieval_recall(outputs: dict, reference_outputs: dict) -> float:
 
 
 def citation_validity(outputs: dict) -> float:
-    """Fraction of cited_text spans genuinely present in their source chunk. No LLM.
-
-    Zero tolerance in the gate: this either holds or there is a bug in app/llm/citations.py.
-    """
+    """Fraction of cited_text spans genuinely present in their source chunk. No LLM."""
     citations = outputs.get("citations") or []
     if not citations:
         return 1.0

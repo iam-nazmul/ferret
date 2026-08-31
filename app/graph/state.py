@@ -1,8 +1,4 @@
-"""The contract between graph nodes.
-
-Nodes are pure functions of state returning partial updates. Everything here must be
-JSON-serializable — the checkpointer persists it.
-"""
+"""The contract between graph nodes."""
 
 from typing import Annotated, Any, TypedDict
 

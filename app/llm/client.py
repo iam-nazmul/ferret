@@ -1,21 +1,20 @@
-"""The single path to the Anthropic API.
-
-Nothing outside this module imports `anthropic`. See .claude/references/claude-api.md
-for the request-shape rules these calls encode.
-"""
+"""The single path to the Anthropic API."""
 
 from collections.abc import AsyncIterator
 from dataclasses import dataclass
 from functools import lru_cache
-from typing import Any, cast
+from typing import TYPE_CHECKING, Any, cast
 
 from anthropic import AsyncAnthropic
 
 from app.config import settings
 from app.llm.cache import cached_system
-from app.llm.models import ANSWER_MODEL, EFFORT_DEFAULT
+from app.llm.models import ANSWER_MODEL, EFFORT_DEFAULT, LOCAL_MODEL
 from app.logging import get_logger
 from app.metrics import cache_read_tokens, tokens_total
+
+if TYPE_CHECKING:
+    from app.llm.ollama_client import OllamaClient
 
 log = get_logger(__name__)
 
@@ -70,11 +69,7 @@ class LLMClient:
         model: str = ANSWER_MODEL,
         max_tokens: int = 64000,
     ) -> AsyncIterator[tuple[str, Any]]:
-        """Yields ("token", str) as text arrives, then ("done", LLMResponse).
-
-        Streaming is mandatory for user-facing calls: large max_tokens on a non-streaming
-        request hits HTTP timeouts.
-        """
+        """Yields ("token", str) as text arrives, then ("done", LLMResponse)."""
         async with self._client.beta.messages.stream(
             model=model,
             max_tokens=max_tokens,
@@ -148,5 +143,11 @@ class LLMClient:
 
 
 @lru_cache
-def get_client() -> LLMClient:
+def get_client() -> "LLMClient | OllamaClient":
+    """The one LLM backend for the process. ENVIRONMENT=local swaps Anthropic for Ollama."""
+    if settings.is_local:
+        from app.llm.ollama_client import OllamaClient
+
+        log.info("llm_backend_local", model=LOCAL_MODEL, base_url=settings.ollama_base_url)
+        return OllamaClient()
     return LLMClient()

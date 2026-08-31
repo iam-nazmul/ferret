@@ -1,9 +1,4 @@
-"""initial schema
-
-Revision ID: 0001
-Revises:
-Create Date: 2026-08-31
-"""
+"""initial schema."""
 
 import pgvector.sqlalchemy
 import sqlalchemy as sa

@@ -8,9 +8,14 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
+    # "development" | "production" talk to the Anthropic API; "local" runs the
+    # answer path on a locally hosted Ollama model instead (app/llm/README.md).
+    environment: str = "development"
+
     # LLM + embeddings
     anthropic_api_key: str = ""
     openai_api_key: str = ""
+    ollama_base_url: str = "http://localhost:11434"
 
     # Observability
     langsmith_api_key: str = ""
@@ -64,17 +69,18 @@ class Settings(BaseSettings):
     thread_retention_days: int = 90
 
     @property
+    def is_local(self) -> bool:
+        return self.environment.strip().lower() == "local"
+
+    @property
     def sync_database_url(self) -> str:
         """SQLAlchemy sync URL (Alembic). psycopg3 — psycopg2 is not a dependency."""
         return self.database_url.replace("+asyncpg", "+psycopg")
 
     @property
     def pg_conninfo(self) -> str:
-        """Raw libpq conninfo for LangGraph's psycopg-based checkpointer and store.
-
-        These take a connection string, not a SQLAlchemy URL — a '+driver' suffix here
-        fails at connect time, not at import time.
-        """
+        """Raw libpq conninfo for LangGraph. Not a SQLAlchemy URL: a driver suffix
+        here fails at connect time, not import time."""
         url = self.database_url
         for driver in ("+asyncpg", "+psycopg", "+psycopg2"):
             url = url.replace(driver, "")

@@ -1,7 +1,4 @@
-"""Model IDs. Never write these strings at a call site (CLAUDE.md rule 3).
-
-Exact IDs, no date suffixes. See .claude/references/claude-api.md for pricing.
-"""
+"""Model IDs. Never write these strings at a call site (CLAUDE.md rule 3)."""
 
 # Answers, and the offline eval judge.
 ANSWER_MODEL = "claude-opus-5"
@@ -13,6 +10,9 @@ EXTRACT_MODEL = "claude-haiku-4-5"
 
 # Cost-reduction fallback. Last resort, and only after the eval gate (SPEC §16).
 CHEAP_ANSWER_MODEL = "claude-sonnet-5"
+
+# ENVIRONMENT=local: every call above is served by this Ollama model instead.
+LOCAL_MODEL = "gemma3:4b"
 
 # Effort levels (output_config.effort), by question shape.
 EFFORT_SIMPLE = "low"

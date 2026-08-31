@@ -1,11 +1,4 @@
-"""SSE event serialization.
-
-Event order is fixed and the UI depends on it:
-  status -> sources -> token* -> citation* -> done | error
-
-`sources` is emitted BEFORE the first token so the panel fills while the answer streams.
-Any failure becomes a terminal `error` event — the stream must never just stop.
-"""
+"""SSE event serialization."""
 
 import json
 from typing import Any

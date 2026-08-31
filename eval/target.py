@@ -1,8 +1,4 @@
-"""The graph as an (inputs -> outputs) callable.
-
-eval treats the graph as a black box — it imports app.graph and calls it like a client,
-nothing deeper. That is what makes the numbers mean something about the shipped system.
-"""
+"""The graph as an (inputs -> outputs) callable."""
 
 import asyncio
 import uuid
@@ -16,23 +12,24 @@ from app.retrieval.reranker import Reranker
 
 
 class _SessionRetriever:
+    """`Retriever` that opens a session per call."""
+
     async def retrieve(self, query, user_groups, filters=None, limit=None):
+        """See `Retriever.retrieve`."""
         async with session_factory() as session:
             return await HybridRetriever(session).retrieve(query, user_groups, filters, limit)
 
 
 def make_target(user_groups: frozenset[str] = frozenset({"all"})):
-    """Build the evaluate() target.
-
-    Each example gets a distinct thread_id — evaluate() runs concurrently, and sharing a
-    thread bleeds memory between examples and makes every number garbage.
-    """
+    """Build the evaluate() target."""
     graph = build_graph(_SessionRetriever(), reranker=Reranker(), checkpointer=None, store=None)
 
     def target(inputs: dict) -> dict[str, Any]:
         question = inputs["question"]
         groups = frozenset(inputs.get("user_groups") or user_groups)
         state = initial_state(question, user_id="eval", user_groups=groups)
+        # Distinct thread per example: evaluate() runs concurrently and a shared
+        # thread bleeds memory between them.
         config = {"configurable": {"thread_id": f"eval-{uuid.uuid4()}"}}
         result = asyncio.run(graph.ainvoke(state, config))
 

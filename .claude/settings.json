@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(uv sync:*)",
+      "Bash(uv run:*)",
+      "Bash(pytest:*)",
+      "Bash(ruff check:*)",
+      "Bash(ruff format:*)",
+      "Bash(mypy:*)",
+      "Bash(alembic current:*)",
+      "Bash(alembic history:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git branch:*)"
+    ],
+    "ask": [
+      "Bash(python -m eval.run_eval:*)",
+      "Bash(uv run python -m eval.run_eval:*)",
+      "Bash(python -m app.ingest.cli:*)",
+      "Bash(python -m app.graph.cli:*)",
+      "Bash(alembic upgrade:*)",
+      "Bash(alembic downgrade:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.streamlit/secrets.toml)"
+    ]
+  }
+}

@@ -1,8 +1,4 @@
-"""Transactional chunk replacement.
-
-Delete + reinsert by document_id in ONE transaction. A partial upsert leaves the index
-lying about the corpus, and nothing downstream can detect it.
-"""
+"""Transactional chunk replacement."""
 
 import uuid
 from datetime import UTC, datetime

@@ -1,9 +1,4 @@
-"""Heading-aware chunking.
-
-Every chunk is prefixed with its heading_path. A fragment read in isolation is often
-meaningless, and the embedding has no other way to know where it came from — this
-measurably improves retrieval.
-"""
+"""Heading-aware chunking."""
 
 from functools import lru_cache
 

@@ -1,8 +1,4 @@
-"""Typed HTTP/SSE client for app/api.
-
-The UI talks to the API and nothing else — no database, no LLM calls, no imports from
-app/. That boundary is what keeps a future Next.js swap bounded.
-"""
+"""Typed HTTP/SSE client for app/api."""
 
 import json
 from collections.abc import Iterator

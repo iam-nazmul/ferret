@@ -1,10 +1,4 @@
-"""Eval runner.
-
-    python -m eval.run_eval --dataset ferret-golden-qa
-    python -m eval.run_eval --gate
-
-Every run that exercises the model costs real money. The gate is ~$4 and ~6 minutes.
-"""
+"""Eval runner."""
 
 import argparse
 import json

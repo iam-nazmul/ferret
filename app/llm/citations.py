@@ -1,8 +1,4 @@
-"""Response citations -> our Citation type.
-
-Citations are API-guaranteed, not model-generated. We never parse markers out of prose;
-`document_index` is a position into the chunk list we sent.
-"""
+"""Response citations -> our Citation type."""
 
 from typing import Any
 

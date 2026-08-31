@@ -1,8 +1,4 @@
-"""Liveness and readiness.
-
-/healthz must NOT touch the database — pointing liveness at a DB check turns a slow
-database into a restart loop.
-"""
+"""Liveness and readiness."""
 
 import httpx
 from fastapi import APIRouter, Response, status

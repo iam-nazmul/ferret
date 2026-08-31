@@ -59,3 +59,6 @@ Everything from env, read once through `app/config.py`. Secrets from the cluster
 - The reranker image is large (~2GB). Pre-pull on nodes or the first pod schedule looks like an outage.
 - Postgres connection limits: `api` (3 × pool) + `worker` (2 × pool) + migrations. Size the pools deliberately; the default will exhaust a small managed instance.
 - Long SSE responses need proxy read timeouts above 60s and buffering disabled, or answers arrive all at once at the end.
+
+
+

@@ -1,11 +1,4 @@
-"""The answer system prompt.
-
-INVARIANT: this is a plain literal with no interpolation of any kind. It sits behind
-the prompt-cache breakpoint; one per-request byte invalidates the prefix and raises
-cost ~35% with no visible error. Volatile content goes in `messages`.
-
-tests/unit/test_prompts.py enforces this.
-"""
+"""The answer system prompt."""
 
 ANSWER_SYSTEM_PROMPT = """You are an enterprise document assistant. Rules:
 1. Answer only from the provided documents. If the answer isn't there, say so.

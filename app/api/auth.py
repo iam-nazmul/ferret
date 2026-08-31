@@ -1,8 +1,4 @@
-"""OIDC authentication.
-
-JWKS is cached with a TTL — fetching per request adds ~100ms and rate-limits at the IdP.
-The group claim name varies by IdP (groups, roles, cognito:groups), so it is config.
-"""
+"""OIDC authentication."""
 
 import time
 from dataclasses import dataclass

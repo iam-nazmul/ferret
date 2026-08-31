@@ -1,8 +1,4 @@
-"""Classify the question as simple or multi-hop.
-
-Heuristic first, LLM only when the heuristic is uncertain — routing every question
-through an extra model call costs latency on the common case.
-"""
+"""Classify the question as simple or multi-hop."""
 
 import re
 

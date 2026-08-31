@@ -1,8 +1,4 @@
-"""Request/response models.
-
-NOTE: no schema here carries user_id, groups, or any ACL input. If a caller could pass
-it, a caller could forge it — those come from the verified JWT via Principal.
-"""
+"""Request/response models."""
 
 from datetime import date
 from typing import Any

@@ -1,7 +1,4 @@
-"""Per-user rate limiting.
-
-Applied before the graph is invoked — a rejected request must not cost an LLM call.
-"""
+"""Per-user rate limiting."""
 
 import time
 from collections import defaultdict, deque

@@ -1,8 +1,4 @@
-"""Gate thresholds and the pass/fail decision.
-
-Thresholds change only in their own PR, with a stated reason. Never widen one to make a
-change pass.
-"""
+"""Gate thresholds and the pass/fail decision."""
 
 from dataclasses import dataclass
 
